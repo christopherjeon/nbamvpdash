@@ -21,6 +21,7 @@ players = []
 
 for i in df.index:
     players.append(df['Player'][i])
+    print df['Player'][i]
 
 
 app.layout = html.Div([
@@ -32,70 +33,57 @@ app.layout = html.Div([
         }
     ),
     html.Div(
-        children='A Closer Look at the Top 5 Players in MVP Contention ', 
+        children='A Closer Look at the Top 10 Players in MVP Contention ', 
         style={
             'textAlign': 'center',
             'color': colors['text']
         }   
     ),
-    dcc.Graph(
-        id='example-graph',
-        figure={
-            'data': [
-               {
-                'x': ['FG%', '3P%', '2P%', 'FT%', 'eFG%'],
-                'y': [df['FG%'][0], df['3P%'][0], df['2P%'][0], df['FT%'][0], df['eFG%'][0]],
-                'type': 'bar',
-                'name': players[0]
-                },
-                {
-                'x': ['FG%', '3P%', '2P%', 'FT%', 'eFG%'],
-                'y': [df['FG%'][1], df['3P%'][1], df['2P%'][1], df['FT%'][1], df['eFG%'][1]],
-                'type': 'bar',
-                'name': players[1]
-               },
-               {
-                'x': ['FG%', '3P%', '2P%', 'FT%', 'eFG%'],
-                'y': [df['FG%'][2], df['3P%'][2], df['2P%'][2], df['FT%'][2], df['eFG%'][2]],
-                'type': 'bar',
-                'name': players[2]
-               },
-               {
-                'x': ['FG%', '3P%', '2P%', 'FT%', 'eFG%'],
-                'y': [df['FG%'][3], df['3P%'][3], df['2P%'][3], df['FT%'][3], df['eFG%'][3]],
-                'type': 'bar',
-                'name': players[3]
-               },
-               {
-                'x': ['FG%', '3P%', '2P%', 'FT%', 'eFG%'],
-                'y': [df['FG%'][4], df['3P%'][4], df['2P%'][4], df['FT%'][4], df['eFG%'][4]],
-                'type': 'bar',
-                'name': players[4]
-               }
 
-
-            ],
-            'layout': {
-                'title': 'Comparison of Field Goal %, 3-Point %, 2-Point%, Free Throw %, and Effective FG%'
-            }
-        }
-    )
-    
-    #dcc.Slider(
-        #id='stat-slider',
-        #min=1,
-        #max=5,
-        #value=1,
-        #marks={
-           # 1: stats[0],
-            #2: stats[1],
-            #3: stats[2],
-            #4: stats[3],
-            #5: stats[4]
-        #}
-    #)
-    
+    html.Div([
+        dcc.Dropdown(
+            id="stat-column",
+            options=[{'label': i, 'value': i} for i in stats],
+            value="FG%"
+        ),
+        dcc.Graph(id='model-graphic')
+    ])
 ])
+
+@app.callback(
+    dash.dependencies.Output('model-graphic', 'figure'),
+    [dash.dependencies.Input('stat-column', 'value')]
+     
+)
+def update_model(variable_column):
+    
+    return {
+        'data': [go.Scatter(
+            x=players,
+            y=df[variable_column],
+            mode='markers',
+            marker={
+                'size': 15,
+                'opacity': 0.5,
+                'line': {'width': 0.5, 'color': 'white'}
+            }
+        )],
+
+        'layout': go.Layout(
+            xaxis={
+                'title': 'MVP Candidates'
+                
+            },
+            yaxis={
+                'title': variable_column
+                
+            },
+            margin={'l': 40, 'b': 40, 't': 10, 'r': 0},
+            hovermode='closest'
+        )
+
+
+    }
 
 
 
