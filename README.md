@@ -1,5 +1,5 @@
 # NBA MVP Tracker Dash App
-This Dash App presents the top 5 players (according Basketball Reference) and compares all of them under the following statistical categories:
+This Dash App presents the top 10 players (according Basketball Reference on January 26th, 2019) and compares all of them under the following statistical categories:
 
 * Field Goal Percentage (FG%)
 * 3-Point Percentage (3P%)
@@ -14,6 +14,11 @@ Running this app will present a side-by-side bar graph represenation of the foll
 * Nikola Jokic (Denver Nuggets)
 * Anthony Davis (New Orleans Pelicans)
 * Stephen Curry (Golden State Warriors)
+* Kawhi Leonard (Toronto Raptors)
+* Kevin Durant (Golden State Warriors)
+* Joel Embiid (Philadelphia 76ers)
+* Paul George (Oklahoma City Thunder)
+* Kyrie Irving (Boston Celtics)
 
 These statistcs can be sourced from Basketball-Reference.com.
 
